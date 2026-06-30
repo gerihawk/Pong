@@ -1,19 +1,37 @@
-class Paddle():
-    def __init__(self, x):
-        self.turtle = turtle.Turtle()
-        self.turtle.speed(0) # Velocidad de animación
-        self.turtle.shape("square") # Forma de la paleta
-        self.turtle.color("white") # Color de la paleta
-        self.turtle.shapesize(stretch_wid=5, stretch_len=1) # Tamaño de la paleta
-        self.turtle.penup() # No dibujar al moverse
-        self.turtle.goto(x, 0) # Posición inicial
-    
-    def go_up(self):
-        y = self.turtle.ycor() # Obtener la coordenada y actual
-        if y < 250: # Limitar el movimiento hacia arriba
-            self.turtle.sety(y + 20) # Mover hacia arriba
+import turtle
 
-    def go_down(self):
-        y = self.turtle.ycor() # Obtener la coordenada y actual
-        if y > -240: # Limitar el movimiento hacia abajo
-            self.turtle.sety(y - 20) # Mover hacia abajo 
+from config import (
+    LEFT_PADDLE_X,
+    RIGHT_PADDLE_X,
+    PADDLE_SPEED,
+    PADDLE_HEIGHT,
+    PADDLE_WIDTH,
+    PADDLE_SHAPE,
+    PADDLE_COLOR,
+    TOP_BORDER,
+    BOTTOM_BORDER,
+)
+
+class Paddle:
+    """Represents a paddle controlled by a player."""
+    def __init__(self, side: str) -> None:
+        self.sprite = turtle.Turtle()
+        self.sprite.speed(PADDLE_SPEED)
+        self.sprite.shape(PADDLE_SHAPE)
+        self.sprite.color(PADDLE_COLOR)
+        self.sprite.shapesize(stretch_wid=PADDLE_HEIGHT, stretch_len=PADDLE_WIDTH)
+        self.sprite.penup()
+        if side == "left":
+            self.sprite.goto(LEFT_PADDLE_X, 0)
+        else:
+            self.sprite.goto(RIGHT_PADDLE_X, 0)
+    
+    def move_up(self) -> None:
+        y = self.sprite.ycor()
+        if y < (TOP_BORDER - PADDLE_HEIGHT * 10):
+            self.sprite.sety(y + PADDLE_SPEED)
+
+    def move_down(self) -> None:
+        y = self.sprite.ycor()
+        if y > (BOTTOM_BORDER + PADDLE_HEIGHT * 10):
+            self.sprite.sety(y - PADDLE_SPEED)
