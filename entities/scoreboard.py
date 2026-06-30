@@ -1,14 +1,38 @@
-class Scoreboard():
-    def __init__(self):
-        self.marcador = turtle.Turtle()
-        self.marcador.speed(0)
-        self.marcador.color("white")
-        self.marcador.penup()
-        self.marcador.hideturtle()
-        self.marcador.goto(0, 260)
-        self.puntos_izq = 0
-        self.puntos_der = 0
-        self.actualizar_marcador()
-    def actualizar_marcador(self):
-        self.marcador.clear()
-        self.marcador.write(f"Jugador 1: {self.puntos_izq}  Jugador 2: {self.puntos_der}", align="center", font=("Courier", 24, "normal"))
+import turtle
+
+from config import (
+    SCOREBOARD_FONT,
+    SCOREBOARD_Y,
+)
+class Scoreboard:
+    """Displays and manages the game score."""
+
+    def __init__(self) -> None:
+        self.sprite = turtle.Turtle()
+        self.sprite.hideturtle()
+        self.sprite.penup()
+        self.sprite.goto(0, SCOREBOARD_Y)
+        self.sprite.color("white")
+        self._draw()
+        self.left_score = 0
+        self.right_score = 0
+        
+    def increment_left(self) -> None:
+        self.left_score += 1
+        self._draw()
+
+    def increment_right(self) -> None:
+        self.right_score += 1
+        self._draw()
+
+    def reset(self) -> None:
+        self.left_score = 0
+        self.right_score = 0
+        self._draw()
+
+    def _draw(self) -> None:
+        self.sprite.clear()
+        self.sprite.write(f'{self.left_score} - {self.right_score}',
+                          align="center",
+                          font=SCOREBOARD_FONT
+                          )
