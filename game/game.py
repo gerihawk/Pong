@@ -14,7 +14,7 @@ from config import (
     WINNING_SCORE,
     WINNER_FONT,
     WINNER_MESSAGE_Y,
-    TEXT_COLOR,
+    MESSAGE_COLOR,
     FPS,
 )
 
@@ -53,14 +53,12 @@ class Game:
         """Starts a new round after a goal."""
         self.ball.reset()
 
-
     @property
     def game_over(self) -> bool:
         return (
             self.scoreboard.left_score >= WINNING_SCORE
             or self.scoreboard.right_score >= WINNING_SCORE
         )
-
 
     # --------- Internal helpers ---------
     def _update(self) -> None:
@@ -105,6 +103,13 @@ class Game:
         message = turtle.Turtle()
         message.hideturtle()
         message.penup()
-        message.color(TEXT_COLOR)
+        message.color(MESSAGE_COLOR)
         return message
 
+    def _register_controls(self) -> None:
+        """Registers the keyboard controls for the game."""
+        self.screen.listen()
+        self.screen.onkeypress(self.left_player.move_up, "w")
+        self.screen.onkeypress(self.left_player.move_down, "s")
+        self.screen.onkeypress(self.right_player.move_up, "up")
+        self.screen.onkeypress(self.right_player.move_down, "down")
