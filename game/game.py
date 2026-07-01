@@ -16,6 +16,7 @@ from config import (
     WINNER_MESSAGE_Y,
     MESSAGE_COLOR,
     FPS,
+    BALL_PADDLE_OFFSET,
 )
 
 
@@ -40,6 +41,7 @@ class Game:
         self.ball = ball
         self.scoreboard = scoreboard
         self.message: turtle.Turtle = self._create_message_turtle()
+        self._register_controls()
 
     # ---------- Public API ----------
     def run(self) -> None:
@@ -48,6 +50,7 @@ class Game:
             self._update()
             time.sleep(1 / FPS)
         self._show_winner()
+        self.screen.mainloop()
 
     def reset_round(self) -> None:
         """Starts a new round after a goal."""
@@ -68,9 +71,12 @@ class Game:
         self._handle_score()
 
     def _check_collisions(self) -> None:
-        if self.ball.collides_with(self.left_player.paddle):
+        if self.ball.dx < 0 and self.ball.collides_with(self.left_player.paddle):
+            self.ball.set_x(self.left_player.paddle.x + BALL_PADDLE_OFFSET)
             self.ball.bounce_horizontal()
-        elif self.ball.collides_with(self.right_player.paddle):
+
+        elif self.ball.dx > 0 and self.ball.collides_with(self.right_player.paddle):
+            self.ball.set_x(self.right_player.paddle.x - BALL_PADDLE_OFFSET)
             self.ball.bounce_horizontal()
 
     def _handle_score(self) -> None:
@@ -111,5 +117,5 @@ class Game:
         self.screen.listen()
         self.screen.onkeypress(self.left_player.move_up, "w")
         self.screen.onkeypress(self.left_player.move_down, "s")
-        self.screen.onkeypress(self.right_player.move_up, "up")
-        self.screen.onkeypress(self.right_player.move_down, "down")
+        self.screen.onkeypress(self.right_player.move_up, "Up")
+        self.screen.onkeypress(self.right_player.move_down, "Down")

@@ -18,7 +18,8 @@ from config import (
     BALL_SHAPE,
     BALL_COLOR,
     BALL_ACCELERATION,
-    BALL_PADDLE_COLLISION_DISTANCE,
+    PADDLE_COLLISION_X,
+    PADDLE_COLLISION_Y,
 )
 
 
@@ -43,10 +44,13 @@ class Ball:
         self.dy *= -1
 
     def bounce_horizontal(self) -> None:
-        self.dx *= -1 * BALL_ACCELERATION
+        self.dx = -self.dx * BALL_ACCELERATION
 
     def collides_with(self, paddle: Paddle) -> bool:
-        return self.sprite.distance(paddle.sprite) < BALL_PADDLE_COLLISION_DISTANCE
+        return (
+            abs(self.x - paddle.x) < PADDLE_COLLISION_X
+            and abs(self.y - paddle.y) < PADDLE_COLLISION_Y
+        )
 
     def check_wall_collision(self) -> None:
         if self.y >= TOP_BORDER or self.y <= BOTTOM_BORDER:
@@ -60,9 +64,13 @@ class Ball:
 
     def reset(self) -> None:
         self.sprite.goto(0, 0)
-        self.dx = -self.dx
+        self.dx = BALL_SPEED if self.dx < 0 else -BALL_SPEED
         self.dy = BALL_SPEED if self.dy >= 0 else -BALL_SPEED
         time.sleep(ROUND_RESET_DELAY)
+
+    def set_x(self, x: float) -> None:
+        """Sets the horizontal position of the ball."""
+        self.sprite.setx(x)
 
     @property
     def x(self) -> float:

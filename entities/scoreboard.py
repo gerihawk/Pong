@@ -4,6 +4,8 @@ from config import (
     SCOREBOARD_FONT,
     SCOREBOARD_Y,
 )
+
+
 class Scoreboard:
     """Displays and manages the game score."""
 
@@ -13,10 +15,10 @@ class Scoreboard:
         self.sprite.penup()
         self.sprite.goto(0, SCOREBOARD_Y)
         self.sprite.color("white")
-        self._draw()
         self.left_score = 0
         self.right_score = 0
-        
+        self._draw()
+
     def increment_left(self) -> None:
         self.left_score += 1
         self._draw()
@@ -32,7 +34,8 @@ class Scoreboard:
 
     def _draw(self) -> None:
         self.sprite.clear()
-        self.sprite.write(f'{self.left_score} - {self.right_score}',
-                          align="center",
-                          font=SCOREBOARD_FONT
-                          )
+        self.sprite.write(
+            f"{self.left_score} - {self.right_score}",
+            align="center",
+            font=SCOREBOARD_FONT,
+        )
