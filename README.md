@@ -4,7 +4,7 @@
 
 # 🏓 Pong Game
 
-A classic two-player Pong game built with **Python** and the **Turtle** graphics library. This project was developed following Object-Oriented Programming (OOP) principles, with a clean architecture and separated responsibilities for each game component.
+A classic two-player Pong game built with **Python** and the **Turtle** graphics library. This project was built to practice Object-Oriented Programming (OOP), clean architecture and project organization.
 
 ## Demo
 
