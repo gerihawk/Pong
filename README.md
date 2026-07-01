@@ -109,4 +109,6 @@ Through this project I practiced:
 
 ## License
 
-This project is available for educational and portfolio purposes.
+## License
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.
